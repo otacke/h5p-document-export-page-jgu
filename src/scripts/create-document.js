@@ -2,7 +2,7 @@
  * Create Document module
  * @external {jQuery} $ H5P.jQuery
  */
-H5P.DocumentExportPage.CreateDocument = (function ($, EventDispatcher) {
+H5P.DocumentExportPageJGU.CreateDocument = (function ($, EventDispatcher) {
   /**
    * Initialize module.
    * @param {Array} inputFields Array of input strings that should be exported
@@ -42,7 +42,7 @@ H5P.DocumentExportPage.CreateDocument = (function ($, EventDispatcher) {
     var exportString = this.getExportString();
     exportString += this.createGoalsOutput() || '';
     var exportObject = this.getExportObject();
-    var exportPage = new H5P.DocumentExportPage.ExportPage(this.title,
+    var exportPage = new H5P.DocumentExportPageJGU.ExportPage(this.title,
       exportString,
       this.submitEnabled,
       this.params.submitTextLabel,

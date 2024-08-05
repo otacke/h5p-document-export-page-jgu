@@ -1,5 +1,5 @@
 {
-  "title": "Document Export Page",
+  "title": "Document Export Page (JGU)",
   "description": "A page you can export all input fields from parent application.",
   "majorVersion": 1,
   "minorVersion": 5,
@@ -11,7 +11,7 @@
   },
   "author": "Joubel",
   "license": "MIT",
-  "machineName": "H5P.DocumentExportPage",
+  "machineName": "H5P.DocumentExportPageJGU",
   "preloadedCss": [
     {
       "path": "dist/h5p-document-export-page.css"

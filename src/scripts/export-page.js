@@ -4,7 +4,7 @@ import {HeadingLevel, Paragraph, Document, TextRun, Packer} from "docx";
 /**
  * Class responsible for creating an export page
  */
-H5P.DocumentExportPage.ExportPage = (function ($, EventDispatcher) {
+H5P.DocumentExportPageJGU.ExportPage = (function ($, EventDispatcher) {
 
   function ExportPage(header, $body, enableSubmit, submitTextLabel, submitSuccessTextLabel, selectAllTextLabel, exportTextLabel, templateContent) {
     EventDispatcher.call(this);

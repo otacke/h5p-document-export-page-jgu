@@ -2,7 +2,7 @@
  * Document Export Page module
  * @external {jQuery} $ H5P.jQuery
  */
-H5P.DocumentExportPage = (function ($, EventDispatcher) {
+H5P.DocumentExportPageJGU = (function ($, EventDispatcher) {
   // CSS Classes:
   var MAIN_CONTAINER = 'h5p-document-export-page';
 
@@ -10,9 +10,9 @@ H5P.DocumentExportPage = (function ($, EventDispatcher) {
    * Initialize module.
    * @param {Object} params Behavior settings
    * @param {Number} id Content identification
-   * @returns {Object} DocumentExportPage DocumentExportPage instance
+   * @returns {Object} DocumentExportPageJGU DocumentExportPageJGU instance
    */
-  function DocumentExportPage(params, id, extras) {
+  function DocumentExportPageJGU(params, id, extras) {
     EventDispatcher.call(this);
     this.id = id;
     this.extras = extras;
@@ -37,15 +37,15 @@ H5P.DocumentExportPage = (function ($, EventDispatcher) {
     }, params);
   }
 
-  DocumentExportPage.prototype = Object.create(EventDispatcher.prototype);
-  DocumentExportPage.prototype.constructor = DocumentExportPage;
+  DocumentExportPageJGU.prototype = Object.create(EventDispatcher.prototype);
+  DocumentExportPageJGU.prototype.constructor = DocumentExportPageJGU;
 
   /**
    * Attach function called by H5P framework to insert H5P content into page.
    *
    * @param {jQuery} $container The container which will be appended to.
    */
-  DocumentExportPage.prototype.attach = function ($container) {
+  DocumentExportPageJGU.prototype.attach = function ($container) {
     var self = this;
 
     self.$wrapper = $container;
@@ -119,12 +119,12 @@ H5P.DocumentExportPage = (function ($, EventDispatcher) {
   /**
    * Setup button for creating a document from stored input array
    */
-  DocumentExportPage.prototype.initDocumentExportButton = function () {
+  DocumentExportPageJGU.prototype.initDocumentExportButton = function () {
     var self = this;
-    H5P.DocumentationTool.handleButtonClick(self.$exportDocumentButton, function () {
+    H5P.DocumentationToolJGU.handleButtonClick(self.$exportDocumentButton, function () {
       // Check if all required input fields are filled
       if (self.isRequiredInputsFilled()) {
-        var exportDocument = new H5P.DocumentExportPage.CreateDocument(self.params, self.exportTitle, self.submitEnabled, self.inputArray, self.inputGoals);
+        var exportDocument = new H5P.DocumentExportPageJGU.CreateDocument(self.params, self.exportTitle, self.submitEnabled, self.inputArray, self.inputGoals);
         exportDocument.attach(self.$wrapper.parent().parent());
         exportDocument.on('export-page-closed', function () {
           self.trigger('export-page-closed');
@@ -148,32 +148,32 @@ H5P.DocumentExportPage = (function ($, EventDispatcher) {
    * @param {boolean} turncatedTitle turncate title flag
    * @returns {String} page title
    */
-  DocumentExportPage.prototype.getTitle = function (turncatedTitle = true) {
+  DocumentExportPageJGU.prototype.getTitle = function (turncatedTitle = true) {
     const pageTitle = (this.extras && this.extras.metadata && this.extras.metadata.title) ? this.extras.metadata.title : 'Document Export';
     return turncatedTitle ? H5P.createTitle(pageTitle) : pageTitle;
   };
 
-  DocumentExportPage.prototype.setExportTitle = function (title) {
+  DocumentExportPageJGU.prototype.setExportTitle = function (title) {
     this.exportTitle = title;
     return this;
   };
 
-  DocumentExportPage.prototype.setSumbitEnabled = function (submitEnabled) {
+  DocumentExportPageJGU.prototype.setSumbitEnabled = function (submitEnabled) {
     this.submitEnabled = submitEnabled;
     return this;
   };
 
-  DocumentExportPage.prototype.updateOutputFields = function (inputs) {
+  DocumentExportPageJGU.prototype.updateOutputFields = function (inputs) {
     this.inputArray = inputs;
     return this;
   };
 
-  DocumentExportPage.prototype.updateExportableGoals = function (newGoals) {
+  DocumentExportPageJGU.prototype.updateExportableGoals = function (newGoals) {
     this.inputGoals = newGoals;
     return this;
   };
 
-  DocumentExportPage.prototype.isRequiredInputsFilled = function () {
+  DocumentExportPageJGU.prototype.isRequiredInputsFilled = function () {
     return this.requiredInputsAreFilled;
   };
 
@@ -181,7 +181,7 @@ H5P.DocumentExportPage = (function ($, EventDispatcher) {
    * Update the message for required fields.
    * @param {object[]} pageTitles Page titles.
    */
-  DocumentExportPage.prototype.updateRequiredInputsFilled = function (pageTitles) {
+  DocumentExportPageJGU.prototype.updateRequiredInputsFilled = function (pageTitles) {
     const requiredInputsAreFilled = pageTitles && pageTitles.length === 0;
     this.$inner.toggleClass('required-inputs-not-filled', !requiredInputsAreFilled);
 
@@ -208,11 +208,11 @@ H5P.DocumentExportPage = (function ($, EventDispatcher) {
   /**
    * Sets focus on the page
    */
-  DocumentExportPage.prototype.focus = function () {
+  DocumentExportPageJGU.prototype.focus = function () {
     this.$pageTitle.focus();
   };
 
-  return DocumentExportPage;
+  return DocumentExportPageJGU;
 }(H5P.jQuery, H5P.EventDispatcher));
 
-export default H5P.DocumentExportPage;
+export default H5P.DocumentExportPageJGU;
