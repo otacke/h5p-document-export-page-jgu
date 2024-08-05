@@ -365,6 +365,14 @@ H5P.DocumentExportPageJGU.ExportPage = (function ($, EventDispatcher) {
           });
         }
       });
+      page[index] = new Paragraph({
+        children: [new TextRun({
+          break: 1,
+          italics: true,
+          text: self.templateContent.averageScoreText,
+          size: 28
+        })]
+      });
     }
     return page;
   };

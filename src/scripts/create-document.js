@@ -15,6 +15,10 @@ H5P.DocumentExportPageJGU.CreateDocument = (function ($, EventDispatcher) {
     this.inputGoals = inputGoals;
 
     this.params = params;
+    this.params.l10n = this.params.l10n || {};
+    this.params.l10n.averageScore =
+      this.params.l10n.averageScore ?? 'Average score: @score';
+
     this.title = title;
     this.submitEnabled = submitEnabled;
 
@@ -145,7 +149,8 @@ H5P.DocumentExportPageJGU.CreateDocument = (function ($, EventDispatcher) {
       title: this.title,
       goalsTitle: this.inputGoals.title,
       flatInputList: flatInputsList,
-      sortedGoalsList: this.exportableGoalsList
+      sortedGoalsList: this.exportableGoalsList,
+      averageScoreText: this.averageScoreText
     };
 
     return exportObject;
@@ -224,10 +229,12 @@ H5P.DocumentExportPageJGU.CreateDocument = (function ($, EventDispatcher) {
 
     this.exportableGoalsList.forEach(function (page) {
       if (page.label !== undefined && page.label.length) {
-        output.append('<p>', {
-          class: 'category',
-          html: '<strong>' + page.label + ':</strong>'
-        });
+        output.append(
+          $('<p>', {
+            class: 'category',
+            html: '<strong>' + page.label + ':</strong>'
+          })
+        );
       }
       const list = $('<ul>', {
         appendTo: output
@@ -239,6 +246,30 @@ H5P.DocumentExportPageJGU.CreateDocument = (function ($, EventDispatcher) {
         }));
       });
     });
+
+    if (this.hasAssessedGoals) {
+      const goalInstances = this.inputGoals.inputArray.flat();
+
+      const totalWeights = goalInstances.reduce((total, goal) => {
+        return total + (goal.goalWeight ?? 100)
+      }, 0);
+
+      const score = goalInstances.reduce((score, goal) => {
+        const nominalScore = parseFloat(goal.textualAnswer) || goal.answer + 1;
+        const relativeWeight = (goal.goalWeight ?? 100) / totalWeights;
+        const weightedScore = nominalScore * relativeWeight;
+
+        return score + weightedScore;
+      }, 0);
+
+      this.averageScoreText =
+        this.params.l10n.averageScore.replace('@score', score.toFixed(2));
+
+      output.append($('<p>', {
+        class: 'average-score',
+        html: `${this.averageScoreText}`
+      }));
+    }
 
     return output.html();
   };

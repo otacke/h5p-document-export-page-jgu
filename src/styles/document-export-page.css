@@ -51,6 +51,10 @@
   padding-bottom: 0;
 }
 
+.joubel-exportable-area p.average-score {
+  font-style: italic;
+}
+
 .textfields-output > p {
   min-height: 1px; /* Include margins for empty p tags */
 }
