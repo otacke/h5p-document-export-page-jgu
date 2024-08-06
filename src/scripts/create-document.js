@@ -223,17 +223,7 @@ H5P.DocumentExportPageJGU.CreateDocument = (function ($, EventDispatcher) {
     if (this.hasAssessedGoals) {
       const goalInstances = this.inputGoals.inputArray.flat();
 
-      const totalWeights = goalInstances.reduce((total, goal) => {
-        return total + (goal.goalWeight ?? 100)
-      }, 0);
-
-      const score = goalInstances.reduce((score, goal) => {
-        const nominalScore = parseFloat(goal.textualAnswer) || goal.answer + 1;
-        const relativeWeight = (goal.goalWeight ?? 100) / totalWeights;
-        const weightedScore = nominalScore * relativeWeight;
-
-        return score + weightedScore;
-      }, 0);
+      const score = H5P.DocumentExportPageJGU.computeAverageScore(goalInstances);
 
       this.averageScoreText =
         this.params.l10n.averageScore.replace('@score', score.toFixed(2));

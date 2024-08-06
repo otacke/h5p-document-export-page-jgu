@@ -212,6 +212,26 @@ H5P.DocumentExportPageJGU = (function ($, EventDispatcher) {
     this.$pageTitle.focus();
   };
 
+  /**
+   * Compute average score from goal instances.
+   * @param {H5P.GoalsPage.GoalInstance[]} goalInstances Goal instances.
+   * @returns {number} Average score.
+   * @static
+   */
+  DocumentExportPageJGU.computeAverageScore = function(goalInstances) {
+    const totalWeights = goalInstances.reduce((total, goal) => {
+      return total + (goal.goalWeight ?? 100)
+    }, 0);
+
+    return goalInstances.reduce((score, goal) => {
+      const nominalScore = parseFloat(goal.textualAnswer) || goal.answer + 1;
+      const relativeWeight = (goal.goalWeight ?? 100) / totalWeights;
+      const weightedScore = nominalScore * relativeWeight;
+
+      return score + weightedScore;
+    }, 0);
+  }
+
   return DocumentExportPageJGU;
 }(H5P.jQuery, H5P.EventDispatcher));
 
