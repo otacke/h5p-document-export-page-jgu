@@ -350,10 +350,12 @@ H5P.DocumentExportPageJGU.ExportPage = (function ($, EventDispatcher) {
     if (self.templateContent.sortedGoalsList) {
       self.templateContent.sortedGoalsList.forEach(function (content) {
         if (content.goalArray.length > 0) {
-          page[index] = new Paragraph({
-            children: [new TextRun({break: 1,text: content.label+":", size: 28, bold: 1})]
-          });
-          index++;
+          if (content.label !== '') {
+            page[index] = new Paragraph({
+              children: [new TextRun({break: 1,text: content.label+":", size: 28, bold: 1})]
+            });
+            index++;
+          }
           content.goalArray.forEach(function (goal) {
             page[index] = new Paragraph({
               children: [new TextRun({text: goal.text, size: 28})],

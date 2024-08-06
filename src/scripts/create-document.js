@@ -78,52 +78,25 @@ H5P.DocumentExportPageJGU.CreateDocument = (function ($, EventDispatcher) {
       return;
     }
 
-    const goalsList = [];
-
-    if (this.hasAssessedGoals) {
-      this.inputGoals.inputArray.forEach(function (inputGoalPage) {
-        inputGoalPage.forEach(function (inputGoal) {
-          // Do not include unassessed goals
-          if (inputGoal.goalAnswer() === -1) {
-            return;
-          }
-          var goalCategoryExists = false;
-          var listIndex = -1;
-          goalsList.forEach(function (sortedGoalEntry, entryIndex) {
-            if (inputGoal.goalAnswer() === sortedGoalEntry.goalAnswer) {
-              listIndex = entryIndex;
-              goalCategoryExists = true;
-            }
-          });
-          if (!goalCategoryExists) {
-            goalsList.push({label: '', goalArray: [], goalAnswer: inputGoal.goalAnswer()});
-            listIndex = goalsList.length - 1;
-            if (inputGoal.getTextualAnswer().length) {
-              goalsList[listIndex].label = inputGoal.getTextualAnswer();
-            }
-          }
-
-          if (inputGoal.goalText().length && inputGoal.getTextualAnswer().length) {
-            goalsList[listIndex].goalArray.push({text: inputGoal.goalText()});
-          }
+    const goals = [];
+    this.inputGoals.inputArray.flat().forEach((goalInstance) => {
+      if (goalInstance.goalAnswer() === -1) {
+        goals.push({
+          text: goalInstance.goalText()
         });
-      });
-    }
-    else {
-      const goals = [];
-      this.inputGoals.inputArray.forEach(function (inputGoalPage) {
-        inputGoalPage.forEach(function (inputGoal) {
-          goals.push({text: inputGoal.goalText()});
+      }
+      else {
+        goals.push({
+          text: `${goalInstance.goalText()} (${goalInstance.getTextualAnswer()})`
         });
-      });
+      }
+    });
 
-      goalsList.push({
-        label: '',
-        goalArray: goals
-      });
-    }
-
-    return goalsList;
+    return [{
+      label: '',
+      goalArray: goals,
+      goalAnswer: -1
+    }];
   };
 
   /**
