@@ -86,7 +86,7 @@ H5P.DocumentExportPageJGU.CreateDocument = (function ($, EventDispatcher) {
 
       goals.push({
         text: text,
-        feedback: goalInstance.getFeedback()
+        comment: goalInstance.getComment()
       });
     });
 
@@ -216,11 +216,11 @@ H5P.DocumentExportPageJGU.CreateDocument = (function ($, EventDispatcher) {
         text.innerText = goal.text;
         listItem.appendChild(text);
 
-        if (goal.feedback !== undefined && goal.feedback.length) {
-          const feedback = document.createElement('div');
-          feedback.classList.add('feedback');
-          feedback.innerText = goal.feedback;
-          listItem.appendChild(feedback);
+        if (goal.comment?.length) {
+          const comment = document.createElement('div');
+          comment.classList.add('comment');
+          comment.innerText = goal.comment;
+          listItem.appendChild(comment);
         }
 
         list.append(listItem);
