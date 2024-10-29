@@ -51,6 +51,10 @@
   padding-bottom: 0;
 }
 
+.joubel-exportable-area .feedback {
+  font-style: italic;
+}
+
 .joubel-exportable-area p.average-score {
   font-style: italic;
 }

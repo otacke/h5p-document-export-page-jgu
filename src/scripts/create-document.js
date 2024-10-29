@@ -80,16 +80,14 @@ H5P.DocumentExportPageJGU.CreateDocument = (function ($, EventDispatcher) {
 
     const goals = [];
     this.inputGoals.inputArray.flat().forEach((goalInstance) => {
-      if (goalInstance.goalAnswer() === -1) {
-        goals.push({
-          text: goalInstance.goalText()
-        });
-      }
-      else {
-        goals.push({
-          text: `${goalInstance.goalText()} (${goalInstance.getTextualAnswer()})`
-        });
-      }
+      const text = (goalInstance.goalAnswer() === -1) ?
+        goalInstance.goalText() :
+        `${goalInstance.goalText()} (${goalInstance.getTextualAnswer()})`;
+
+      goals.push({
+        text: text,
+        feedback: goalInstance.getFeedback()
+      });
     });
 
     return [{
@@ -213,10 +211,19 @@ H5P.DocumentExportPageJGU.CreateDocument = (function ($, EventDispatcher) {
         appendTo: output
       });
       page.goalArray.forEach(function (goal) {
-        list.append($('<li>', {
-          // Using text, since this comes from end-user input
-          text: goal.text
-        }));
+        const listItem = document.createElement('li');
+        const text = document.createElement('div');
+        text.innerText = goal.text;
+        listItem.appendChild(text);
+
+        if (goal.feedback !== undefined && goal.feedback.length) {
+          const feedback = document.createElement('div');
+          feedback.classList.add('feedback');
+          feedback.innerText = goal.feedback;
+          listItem.appendChild(feedback);
+        }
+
+        list.append(listItem);
       });
     });
 

@@ -357,8 +357,15 @@ H5P.DocumentExportPageJGU.ExportPage = (function ($, EventDispatcher) {
             index++;
           }
           content.goalArray.forEach(function (goal) {
+            const children = (goal.feedback && goal.feedback.length > 0) ?
+              [
+                new TextRun({text: goal.text, size: 28}),
+                new TextRun({text: goal.feedback, size: 28, italics: true, break: 1})
+              ] :
+              [new TextRun({text: goal.text, size: 28})];
+
             page[index] = new Paragraph({
-              children: [new TextRun({text: goal.text, size: 28})],
+              children: children,
               bullet: {
                 level: 0
               }
